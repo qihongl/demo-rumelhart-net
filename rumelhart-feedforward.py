@@ -28,6 +28,7 @@ targets = torch.tensor([
 ], dtype=torch.float32)
 
 
+
 # 2. Define MLP with one hidden layer
 class Net(nn.Module):
     def __init__(self, hidden_size, output_dim):
@@ -52,7 +53,7 @@ np.random.seed(0)
 torch.manual_seed(0)
 
 n_epochs = 1000
-hidden_size = 16
+hidden_size = 64
 output_dim = np.shape(targets)[-1]
 # 3. Train the model
 model = Net(hidden_size=hidden_size, output_dim=output_dim)
@@ -77,16 +78,51 @@ for i in range(n_epochs):
     H = torch.stack(model.hidden_activations).numpy()
     all_hidden[i] = np.squeeze(H)
 
+'''plots'''
+# show the inputs
+f, ax = plt.subplots(1, 1, figsize=(8, 4))
+ax.imshow(targets.numpy())
+ax.set_yticks(range(n_items))
+ax.set_yticklabels(items)
+ax.set_xlabel('Features')
+ax.set_ylabel('Items')
+ax.set_title('Inputs')
+f.tight_layout()
 
-# 4. Plot loss
+# loss
 f, ax = plt.subplots(1, 1, figsize=(8, 4))
 ax.plot(losses)
 ax.set_xlabel('Epoch')
 ax.set_ylabel('Loss')
 ax.set_title('Training Loss')
+f.tight_layout()
+
+# show the input-input similarity matrix
+f, ax = plt.subplots(1, 1, figsize=(8, 4))
+sns.heatmap(np.corrcoef(targets.T), ax=ax, cmap='coolwarm', center=0, vmin=-1, vmax=1, square=True)
+ax.set_title('Item-item Similarity')
+ax.set_xlabel('Items')
+ax.set_ylabel('Items')
+ax.set_xticks(range(n_items))
+ax.set_yticks(range(n_items))
+ax.set_xticklabels(items, rotation=90)
+ax.set_yticklabels(items, rotation=0)
+f.tight_layout()
+
+# show the final hidden-hidden similarity matrix
+f, ax = plt.subplots(1, 1, figsize=(8, 4))
+sns.heatmap(np.corrcoef(all_hidden[-1]), ax=ax, cmap='coolwarm', center=0, vmin=-1, vmax=1, square=True)
+ax.set_title('Representational Similarity')
+ax.set_xlabel('Items')
+ax.set_ylabel('Items')
+ax.set_xticks(range(n_items))
+ax.set_yticks(range(n_items))
+ax.set_xticklabels(items, rotation=90)
+ax.set_yticklabels(items, rotation=0)
+f.tight_layout()
 
 
-# 5. MDS visualization - extract the hidden activations for every other 100 epochs and plot the trajectories
+# MDS visualization - extract the hidden activations for every other 100 epochs and plot the trajectories
 k = 100
 all_hidden_k = [all_hidden[i] for i in range(0, len(all_hidden), k)]
 all_hidden_k = np.array(all_hidden_k)
@@ -112,4 +148,4 @@ ax.legend()
 ax.set_xlabel('MDS dim 1')
 ax.set_ylabel('MDS dim 2')
 ax.set_title('Hidden Representation During Training')
-plt.show()
+f.tight_layout()
