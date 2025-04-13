@@ -154,7 +154,7 @@ with torch.no_grad():
 
 
 # Plot training losses
-for data, label in zip([losses_phase1, losses_phase2, losses_phase3], ['Phase 1', 'Phase 2', 'Phase 3']):
+for data, label in zip([losses_phase1], ['Phase 3']):
     f, ax = plt.subplots(1, 1, figsize=(5, 4))
     ax.plot(data)
     ax.set_title(f'{label}')
@@ -164,7 +164,7 @@ for data, label in zip([losses_phase1, losses_phase2, losses_phase3], ['Phase 1'
     sns.despine()
 
 # Plot predictions
-for data, title in zip([predictions_phase1, predictions_phase2, predictions_phase3], ['Phase 1', 'Phase 2', 'Phase 3']):
+for data, title in zip([predictions_phase3], ['Phase 3']):
     f, ax = plt.subplots(1, 1, figsize=(5, 4))
     sns.barplot(y=items, x=data[:,0].numpy(), width=width, ax=ax, orient='horizontal')
     ax.set_xlabel('"Fly Probability"')
