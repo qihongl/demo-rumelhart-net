@@ -61,6 +61,7 @@ class Net(nn.Module):
             param.data.uniform_(-scale, scale)
 
 # Initialize model and training parameters
+np.random.seed(0)
 torch.manual_seed(0)
 hidden_size = 16
 output_dim = 2
