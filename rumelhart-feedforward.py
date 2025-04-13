@@ -17,14 +17,14 @@ inputs = torch.eye(n_items)  # 8x8 tensor
 # Target feature vectors (hierarchical structure)
 targets = torch.tensor([
     # Animal features            Plant features
-    [1,1,0,1, 0,0,0,0],  # Canary
-    [1,1,0,0, 0,0,0,0],  # Robin
-    [1,0,1,1, 0,0,0,0],  # Shark
-    [1,0,1,0, 0,0,0,0],  # Salmon
-    [0,0,0,0, 1,1,0,1],  # Oak
-    [0,0,0,0, 1,1,0,0],  # Pine
-    [0,0,0,0, 1,0,1,1],  # Rose
-    [0,0,0,0, 1,0,1,0],  # Daisy
+    [1,1,0,1,0,0,0, 0,0,0,0,0,0,0],  # Canary
+    [1,1,0,0,1,0,0, 0,0,0,0,0,0,0],  # Robin
+    [1,0,1,0,0,1,0, 0,0,0,0,0,0,0],  # Shark
+    [1,0,1,0,0,0,1, 0,0,0,0,0,0,0],  # Salmon
+    [0,0,0,0,0,0,0, 1,1,0,1,0,0,0],  # Oak
+    [0,0,0,0,0,0,0, 1,1,0,0,1,0,0],  # Pine
+    [0,0,0,0,0,0,0, 1,0,1,0,0,1,0],  # Rose
+    [0,0,0,0,0,0,0, 1,0,1,0,0,0,1],  # Daisy
 ], dtype=torch.float32)
 
 
@@ -52,11 +52,12 @@ class Net(nn.Module):
 np.random.seed(0)
 torch.manual_seed(0)
 
-n_epochs = 1000
+n_epochs = 2000
 hidden_size = 64
-output_dim = np.shape(targets)[-1]
+n_features = np.shape(targets)[-1]
+
 # 3. Train the model
-model = Net(hidden_size=hidden_size, output_dim=output_dim)
+model = Net(hidden_size=hidden_size, output_dim=n_features)
 model.initialize_weights()
 criterion = nn.MSELoss()
 optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
@@ -86,11 +87,15 @@ ax.set_yticks(range(n_items))
 ax.set_yticklabels(items)
 ax.set_xlabel('Features')
 ax.set_ylabel('Items')
-ax.set_title('Inputs')
+# ax.set_title('Inputs')
+ax.set_xticks(np.arange(-.5, n_features, 1), minor=True)
+ax.set_yticks(np.arange(-.5, n_items, 1), minor=True)
+ax.grid(which='minor', color='w', linestyle='-', linewidth=2)
 f.tight_layout()
 
+
 # loss
-f, ax = plt.subplots(1, 1, figsize=(8, 4))
+f, ax = plt.subplots(1, 1, figsize=(6, 4))
 ax.plot(losses)
 ax.set_xlabel('Epoch')
 ax.set_ylabel('Loss')
@@ -99,7 +104,8 @@ f.tight_layout()
 
 # show the input-input similarity matrix
 f, ax = plt.subplots(1, 1, figsize=(8, 4))
-sns.heatmap(np.corrcoef(targets.T), ax=ax, cmap='coolwarm', center=0, vmin=-1, vmax=1, square=True)
+# sns.heatmap(np.cov(targets), ax=ax, cmap='coolwarm',square=True)
+sns.heatmap(np.corrcoef(targets), ax=ax, cmap='coolwarm', center=0, vmin=-1, vmax=1, square=True)
 ax.set_title('Item-item Similarity')
 ax.set_xlabel('Items')
 ax.set_ylabel('Items')
@@ -111,6 +117,7 @@ f.tight_layout()
 
 # show the final hidden-hidden similarity matrix
 f, ax = plt.subplots(1, 1, figsize=(8, 4))
+# sns.heatmap(np.cov(all_hidden[-1]), ax=ax, cmap='coolwarm', square=True)
 sns.heatmap(np.corrcoef(all_hidden[-1]), ax=ax, cmap='coolwarm', center=0, vmin=-1, vmax=1, square=True)
 ax.set_title('Representational Similarity')
 ax.set_xlabel('Items')
