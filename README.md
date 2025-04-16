@@ -5,4 +5,14 @@ colab:
 - https://colab.research.google.com/drive/1IqYxBfn2wkJwpC-p0SKh7guNYhTzRt2U?usp=sharing
 - https://colab.research.google.com/drive/1TzgC1Z9DVc2W-jpgkyDuB-TsQKuLkTe0?usp=sharing
 
-![mds_animation](https://github.com/user-attachments/assets/89e33c17-d957-4437-a099-553fede9c6e4)
+
+
+<div style="display: flex; width: 100%;">
+    <div style="width: 60%;">
+        <img src="mds_legend.png" alt="JPG description" style="width: 60%;"/>
+    </div>  
+    <div style="width: 80%;">
+        <img src="mds_animation.gif" alt="GIF description" style="width: 80%;"/>
+    </div>
+
+</div>
