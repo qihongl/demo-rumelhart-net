@@ -7,19 +7,19 @@ import seaborn as sns
 sns.set(style='white', palette='colorblind', context='talk')
 
 # 1. Create stimuli
-items = ['Sparrow', 'Robin', 'Eagle', 'Hawk', 'Finch', 'Pigeon', 'Swan(heldout)', 'Penguin']
+items = ['Sparrow', 'Robin', 'Eagle', 'Hawk', 'Finch', 'Pigeon', 'Banda Myzomela!', 'Penguin']
 n_items = len(items)
 
 # Target feature vectors (hierarchical structure)
 inputs = torch.tensor([
-    [1,1,1,0,0,0,0,0,0,0],  # Canary
-    [1,1,0,1,0,0,0,0,0,0],  # Robin
-    [1,1,0,0,1,0,0,0,0,0],  # Shark
-    [1,1,0,0,0,1,0,0,0,0],  # Salmon
-    [1,1,0,0,0,0,1,0,0,0],  # Oak
-    [1,1,0,0,0,0,0,1,0,0],  # Pine
-    [1,1,0,0,0,0,0,0,1,0],  # Rose
-    [1,1,0,0,0,0,0,0,0,1],  # Daisy
+    [1,1,1,0,0,0,0,0,0,0],
+    [1,1,0,1,0,0,0,0,0,0],
+    [1,1,0,0,1,0,0,0,0,0],
+    [1,1,0,0,0,1,0,0,0,0],
+    [1,1,0,0,0,0,1,0,0,0],
+    [1,1,0,0,0,0,0,1,0,0],
+    [1,1,0,0,0,0,0,0,1,0],
+    [1,1,0,0,0,0,0,0,0,1],
 ], dtype=torch.float32)
 
 # Target features: [can_fly, is_big]
@@ -30,7 +30,7 @@ targets = torch.tensor([
     [1],  # Hawk
     [1],  # Finch
     [1],  # Pigeon
-    [1],  # Swan
+    [1],  # Banda Myzomela
     [0],  # Penguin
 ], dtype=torch.float32)
 
@@ -75,8 +75,7 @@ train_indices_phase1 = [0, 1, 2, 3, 4, 5]  # 6 regular birds
 train_indices_phase2 = [7]                  # Penguin
 train_indices_phase3 = [0, 1, 2, 3, 4, 5, 7]  # all except for bird 6
 
-n_epochs_phase1 = n_epochs_phase2 = 500
-n_epochs_phase3 = 500
+n_epochs_phase1 = n_epochs_phase2 = n_epochs_phase3 = 500
 
 # Phase 1: Train on regular birds
 losses_phase1 = []

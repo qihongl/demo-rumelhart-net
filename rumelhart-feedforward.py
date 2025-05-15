@@ -137,22 +137,75 @@ all_hidden_k = np.array(all_hidden_k)
 all_hidden_k_reshaped = all_hidden_k.reshape(-1, hidden_size)
 
 # Compute MDS
-mds = MDS(n_components=2)
+mds = MDS(n_components=3)
 transformed = mds.fit_transform(all_hidden_k_reshaped)
-transformed_reshaped = transformed.reshape(len(all_hidden_k), n_items, 2)
+transformed_reshaped = transformed.reshape(len(all_hidden_k), n_items, 3)
 
 # plot the trajectories
-f, ax = plt.subplots(1, 1, figsize=(8, 7))
-colors = plt.cm.tab10(np.linspace(0, 1, n_items))
+f, ax = plt.subplots(1, 1, figsize=(8, 6))  # Made figure wider to accommodate legend
+colors = sns.color_palette("colorblind", n_items)
 for i in range(n_items):
     x = transformed_reshaped[:, i, 0]
     y = transformed_reshaped[:, i, 1]
-    ax.plot(x, y, label=items[i])
+    ax.plot(x, y, label=items[i], color=colors[i])
     ax.scatter(x[0], y[0], marker='o', color='red')
-    # ax.scatter(x[-1], y[-1], marker='s', color=colors[i])
-
 ax.legend()
 ax.set_xlabel('MDS dim 1')
 ax.set_ylabel('MDS dim 2')
 ax.set_title('Hidden Representation During Training')
-f.tight_layout()
+plt.tight_layout()
+
+# # Create and save legend separately
+# figlegend = plt.figure(figsize=(8, 1.2))
+# # Get the legend handles and labels from the main plot
+# handles, labels = ax.get_legend_handles_labels()
+# # Create the legend with 2 rows
+# legend = figlegend.legend(handles, labels, loc='center', ncol=4, mode="expand")
+# figlegend.savefig('mds_legend.png', bbox_inches='tight', dpi=150)
+#
+# # make a video of the MDS results in 3d and rotate it 360 degrees
+# from matplotlib.animation import FuncAnimation
+#
+# # Create a 3D plot
+# fig = plt.figure(figsize=(8, 6))  # Adjusted size since no legend
+# ax = fig.add_subplot(111, projection='3d')
+#
+# scatter = None
+# lines = []
+# # Using the same colors as defined above
+#
+# def init():
+#     global scatter, lines
+#     # Plot scatter points for current position
+#     scatter = ax.scatter(transformed_reshaped[0, :, 0],
+#                         transformed_reshaped[0, :, 1],
+#                         transformed_reshaped[0, :, 2],
+#                         c=colors)
+#
+#     # Plot trajectories for each item
+#     lines = []
+#     for i in range(n_items):
+#         line, = ax.plot(transformed_reshaped[:, i, 0],
+#                        transformed_reshaped[:, i, 1],
+#                        transformed_reshaped[:, i, 2],
+#                        color=colors[i],
+#                        alpha=0.5)  # Removed label parameter
+#         lines.append(line)
+#
+#     ax.set_xlabel('MDS dim 1')
+#     ax.set_ylabel('MDS dim 2')
+#     ax.set_zlabel('MDS dim 3')
+#     return [scatter] + lines
+#
+# def update(frame):
+#     ax.view_init(elev=30, azim=frame)
+#     return [scatter] + lines
+#
+# # Create the animation
+# animation = FuncAnimation(fig, update, frames=range(0, 360, 1),
+#                         init_func=init, blit=True, interval=5)  # 1000ms/50fps = 20ms per frame
+#
+# # Save the animation as a gif
+# animation.save('mds_animation.gif', writer='pillow', fps=120)
+#
+# plt.show()
