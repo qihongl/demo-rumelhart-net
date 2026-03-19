@@ -1,9 +1,9 @@
 # demo-rumelhart-net
 
+<a href="https://colab.research.google.com/gist/qihongl/267ddbac0c9b6834b5798b87bc6867f4/rumelhart-feedforward.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" title="Open and Execute in Google Colaboratory"></a> Notebook 1. Concept Learning 
 
-colab: 
-- [https://colab.research.google.com/drive/1IqYxBfn2wkJwpC-p0SKh7guNYhTzRt2U?usp=sharing](https://colab.research.google.com/gist/qihongl/267ddbac0c9b6834b5798b87bc6867f4/rumelhart-feedforward.ipynb) 
-- [https://colab.research.google.com/drive/1TzgC1Z9DVc2W-jpgkyDuB-TsQKuLkTe0?usp=sharing](https://colab.research.google.com/gist/qihongl/1f71ee6fe2506ae80fd3ca70ae579774/catastrophic-interference.ipynb) 
+<a href="https://colab.research.google.com/gist/qihongl/1f71ee6fe2506ae80fd3ca70ae579774/catastrophic-interference.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" title="Open and Execute in Google Colaboratory"></a> Notebook 2. Generalization and Interference [**OPTIONAL**]
+
 
 <br />
 
